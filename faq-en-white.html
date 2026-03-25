@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ · Music Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #ffffff;
+    --bg2:      #f7f4f1;
+    --bg3:      #f0ebe4;
+    --brown:    #8b3a2a;       /* brown-reddish — titles, accents */
+    --brown2:   #a84c38;       /* lighter accent */
+    --green:    #2d4a32;       /* dark green — body text */
+    --green2:   #3d6142;       /* mid green */
+    --muted:    #8a9e8c;       /* muted green */
+    --brd:      #ddd6cc;
+    --brd2:     #c8bfb4;
+    --serif:    'Cormorant Garamond', Georgia, serif;
+    --sans:     'Lato', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--green);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: var(--bg2);
+    border-bottom: 2px solid var(--brown);
+    padding: 36px 48px 30px;
+  }
+  .header-eyebrow {
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--brown2);
+    margin-bottom: 10px;
+  }
+  .header-title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: 42px;
+    line-height: 1.15;
+    color: var(--brown);
+    letter-spacing: 0.01em;
+  }
+  .header-title em {
+    font-style: italic;
+    color: var(--green);
+  }
+  .header-subtitle {
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  .header-rule {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-rule-line { flex: 1; height: 1px; background: var(--brd2); }
+  .header-rule-mark {
+    font-size: 11px;
+    color: var(--brown);
+    letter-spacing: 0.2em;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  /* ── BODY ── */
+  .faq-body {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 0 48px 64px;
+  }
+
+  /* ── SECTION ── */
+  .faq-section { margin-top: 52px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--brd2);
+  }
+  .section-number {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    color: var(--brown2);
+  }
+  .section-title {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--green);
+  }
+  .section-line { flex: 1; height: 1px; background: var(--brd); }
+
+  /* ── ACCORDION ── */
+  .faq-item { border-bottom: 1px solid var(--brd); }
+  .faq-q {
+    width: 100%; background: none; border: none; cursor: pointer;
+    padding: 18px 0; display: flex; align-items: flex-start; gap: 16px;
+    text-align: left; color: var(--green); transition: color 0.2s;
+  }
+  .faq-q:hover .faq-q-text { color: var(--brown); }
+  .faq-q-num {
+    font-size: 10px; font-weight: 400; letter-spacing: 0.15em;
+    color: var(--muted); margin-top: 3px; min-width: 26px;
+  }
+  .faq-q-text {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.4;
+    flex: 1;
+    color: var(--green);
+    transition: color 0.2s;
+  }
+  .faq-q-arrow {
+    font-size: 10px; color: var(--muted); margin-top: 5px;
+    transition: transform 0.3s; flex-shrink: 0;
+  }
+  .faq-item.open .faq-q-arrow { transform: rotate(90deg); color: var(--brown); }
+  .faq-item.open .faq-q-text { color: var(--brown); }
+
+  .faq-a { display: none; padding: 4px 0 24px 42px; }
+  .faq-item.open .faq-a { display: block; }
+
+  .faq-a p {
+    font-size: 14px; font-weight: 300; line-height: 1.8;
+    color: var(--green); margin-bottom: 14px;
+  }
+  .faq-a p:last-child { margin-bottom: 0; }
+
+  strong { font-weight: 700; color: var(--green); }
+  em { font-style: italic; }
+
+  /* ratio pill */
+  .ratio {
+    font-family: 'Lato', monospace;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--brown);
+    background: rgba(139,58,42,0.07);
+    border: 1px solid rgba(139,58,42,0.2);
+    padding: 1px 7px;
+    border-radius: 3px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+
+  /* table */
+  .faq-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 12px; font-weight: 300;
+    margin: 16px 0;
+  }
+  .faq-table th {
+    text-align: left; padding: 7px 12px;
+    border-bottom: 2px solid var(--brown);
+    color: var(--brown); font-size: 10px;
+    font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .faq-table td {
+    padding: 7px 12px;
+    border-bottom: 1px solid var(--brd);
+    color: var(--green);
+    vertical-align: top;
+  }
+  .faq-table tr:last-child td { border-bottom: none; }
+  .faq-table tr:hover td { background: var(--bg2); }
+  .oo { color: var(--green2); font-weight: 700; }
+  .o1 { color: var(--brown); font-weight: 700; }
+
+  /* callout */
+  .callout {
+    border-left: 3px solid var(--brown2);
+    background: rgba(139,58,42,0.04);
+    padding: 13px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    font-style: italic;
+    font-weight: 300;
+    color: #6a4840;
+    border-radius: 0 4px 4px 0;
+    line-height: 1.65;
+  }
+  .callout-green {
+    border-left-color: var(--green2);
+    background: rgba(45,74,50,0.04);
+    color: var(--green);
+    font-style: normal;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: var(--bg3);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--green2);
+  }
+
+  @media (max-width: 640px) {
+    .page-header { padding: 28px 20px 22px; }
+    .faq-body { padding-left: 20px; padding-right: 20px; }
+    .faq-a { padding-left: 20px; }
+    .header-title { font-size: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header class="page-header">
+  <div class="header-eyebrow">Music Motion · m Δ° m</div>
+  <h1 class="header-title">Frequently Asked<br><em>Questions</em></h1>
+  <p class="header-subtitle">The Pythagorean system, the mmk keyboard, the mm Sequencer, the .mmf format, and the mathematical foundations of Music Motion.</p>
+  <div class="header-rule">
+    <div class="header-rule-line"></div>
+    <div class="header-rule-mark">3ⁿ / 2ᵐ — exact arithmetic fractions of 2 and 3</div>
+    <div class="header-rule-line"></div>
+  </div>
+</header>
+
+<main class="faq-body">
+
+  <!-- ══ 1 ══ -->
+  <section class="faq-section">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <span class="section-title">The Pythagorean System</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">1.1</span><span class="faq-q-text">What is the Pythagorean system used in Music Motion?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>The Pythagorean system is an <strong>axiomatic tuning system</strong> — every pitch is derived from a single indisputable rule: the arithmetic fraction <span class="ratio">3/2</span> (the pure perfect fifth). No approximation is ever made.</p>
+        <p>Every one of the 35 pitches in Music Motion is expressed as an <strong>exact arithmetic fraction of powers of 2 and powers of 3</strong> — written in the form <span class="ratio">3ⁿ / 2ᵐ</span>. This is the only mathematical operation used in the Pythagorean context.</p>
+        <div class="callout">The system does not use any ratio derived from roots of 2. It does not use the circle of fifths as a conceptual tool. It does not reference cents, quarter-tones, or half-steps. These belong exclusively to the tempered context.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">1.2</span><span class="faq-q-text">What are the 7 Fundamentals and how are they calculated?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>The 7 Fundamentals are the diatonic degrees of the major scale. Each ratio is derived exclusively by multiplying or dividing <span class="ratio">3/2</span> and <span class="ratio">9/8</span>, then reducing by factors of 2 to remain within the octave.</p>
+        <table class="faq-table">
+          <thead><tr><th>Degree</th><th>Note</th><th>Ratio</th><th>Derivation</th></tr></thead>
+          <tbody>
+            <tr><td>I · Do</td><td>C4</td><td><span class="ratio">1</span></td><td>Reference</td></tr>
+            <tr><td>II · Re</td><td>D4</td><td><span class="ratio">9/8</span></td><td>(3/2)² ÷ 2</td></tr>
+            <tr><td>III · Mi</td><td>E4</td><td><span class="ratio">81/64</span></td><td>(9/8)²</td></tr>
+            <tr><td>IV · Fa</td><td>F4</td><td><span class="ratio">4/3</span></td><td>2 ÷ (3/2)</td></tr>
+            <tr><td>V · Sol</td><td>G4</td><td><span class="ratio">3/2</span></td><td>Pure perfect fifth</td></tr>
+            <tr><td>VI · La</td><td>A4</td><td><span class="ratio">27/16</span></td><td>(3/2) × (9/8)</td></tr>
+            <tr><td>VII · Si</td><td>B4</td><td><span class="ratio">243/128</span></td><td>(3/2) × (81/64)</td></tr>
+          </tbody>
+        </table>
+        <p>A4 = 440 Hz is the universal reference, undivided in all systems. C4 is derived as <span class="ratio">7040/27 ≈ 260.741 Hz</span>.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">1.3</span><span class="faq-q-text">What are the Pythagorean intervals?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <table class="faq-table">
+          <thead><tr><th>Interval</th><th>Ratio</th></tr></thead>
+          <tbody>
+            <tr><td>Whole Tone</td><td><span class="ratio">9/8</span></td></tr>
+            <tr><td>Diatonic Semitone</td><td><span class="ratio">256/243</span></td></tr>
+            <tr><td>Chromatic Semitone</td><td><span class="ratio">2187/2048</span></td></tr>
+            <tr><td>Minor Third</td><td><span class="ratio">32/27</span></td></tr>
+            <tr><td>Major Third</td><td><span class="ratio">81/64</span></td></tr>
+            <tr><td>Fourth</td><td><span class="ratio">4/3</span></td></tr>
+            <tr><td>Fifth</td><td><span class="ratio">3/2</span></td></tr>
+            <tr><td>Minor Sixth</td><td><span class="ratio">128/81</span></td></tr>
+            <tr><td>Major Sixth</td><td><span class="ratio">27/16</span></td></tr>
+            <tr><td>Minor Seventh</td><td><span class="ratio">16/9</span></td></tr>
+            <tr><td>Major Seventh</td><td><span class="ratio">243/128</span></td></tr>
+            <tr><td>Pythagorean Comma</td><td><span class="ratio">531441 / 524288 = 3¹² / 2¹⁹</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">1.4</span><span class="faq-q-text">What is the Pythagorean Comma?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>The mathematically exact gap between enharmonic notes — such as C♯ and D♭ — when the Pythagorean system is applied strictly:</p>
+        <div class="callout callout-green">531441 / 524288 = 3¹² / 2¹⁹</div>
+        <p>Equal temperament erases this gap by approximation. In Music Motion it remains audible. Example: D♯ = 1184.135 Hz · E♭ = 1165.845 Hz — two physically distinct zones on the mmk keyboard.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">1.5</span><span class="faq-q-text">What is the Tonal System?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>The <strong>Axiomatic System</strong> contains all 35 Pythagorean pitches in pure mathematical order, without tonal context. The <strong>Tonal System</strong> anchors on a chosen key — its 7 diatonic degrees remain pure Pythagorean; alterations (♭ ♮ ♯) shift each degree by one diatonic semitone <span class="ratio">256/243</span> without crossing adjacent degrees.</p>
+        <p>7 keys (F C G D A E B) × 3 alterations = <strong>21 tonal contexts</strong>, all expressed as fractions of 2 and 3.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">1.6</span><span class="faq-q-text">What do the OO and O1 status labels mean?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <table class="faq-table">
+          <thead><tr><th>Status</th><th>Meaning</th><th>Position in major</th></tr></thead>
+          <tbody>
+            <tr><td class="oo">OO</td><td>Tonic — consonant, stable</td><td>Degrees I – VI</td></tr>
+            <tr><td class="o1">O1</td><td>Leading tone — tension, resolves to I</td><td>Degree VII (B / Si)</td></tr>
+          </tbody>
+        </table>
+        <p>This flag is preserved in every .mmf file and shown in real time on the keyboard's <em>artificial horizon</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 2 ══ -->
+  <section class="faq-section">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <span class="section-title">The mmk Keyboard</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">2.1</span><span class="faq-q-text">What is the mmk keyboard?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>A free, browser-based instrument making <strong>35 mathematically exact Pythagorean pitches</strong> per octave directly playable — no installation, no server, no dependencies. Open the HTML file in any modern browser.</p>
+        <p>Conceived by Mario Maurano, contrabassist and former principal bass of the BRT Philharmonic Orchestra (18 years) and Orchestre Philharmonique de Liège (17 years), from decades of first-hand experience with pure intonation.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">2.2</span><span class="faq-q-text">Why 35 pitches instead of 12?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>Standard keyboards merge enharmonic notes into one key — an approximation called equal temperament. The mmk keeps each enharmonic pair as <strong>two physically separate zones</strong> with distinct frequencies: D♯ ≠ E♭, F𝄪 ≠ G, B𝄫 ≠ A — restored as exact arithmetic fractions of 2 and 3.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">2.3</span><span class="faq-q-text">How are the keys structured?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p><strong>White keys</strong> (except A4): upper 4/5 = pure Pythagorean pitch · lower 1/5 = equal-tempered reference (shown in cyan). A4 is undivided — the universal 440 Hz reference.</p>
+        <p><strong>Black keys</strong> (and E→F, B→C positions): top 2/5 = ♭♭ / ♯♯ double accidentals · middle 2/5 = ♭ / ♯ single accidentals · bottom 1/5 = equal-tempered reference. The E→F and B→C keys are ivory-coloured to mark their special axiomatic status.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">2.4</span><span class="faq-q-text">What instruments and controls are available?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>All instruments are synthesized in Web Audio API — zero external dependencies, up to 6 simultaneous voices. Families: Synthetic · Strings · Woodwinds · Brass · Percussion · Keyboard · Plucked & Folk.</p>
+        <p>Controls: System (Axiomatic / Tonal) · Key (F C G D A E B) · Alteration (♭ ♮ ♯) · Octave · Tuning A= (415 · 430 · 432 · 440 · 442 · 466 Hz) · Theme (4 options) · 12 display languages.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">2.5</span><span class="faq-q-text">How does recording work, and what is the .mmf format?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>Press ⏺ to record — every note is captured with its <strong>exact Hz frequency</strong> as a <span class="ratio">3ⁿ / 2ᵐ</span> ratio, not a MIDI note number. Press ⏹ and save as <strong>.mmf</strong> (Music Motion Format, JSON-based). Each file stores: exact frequency · OO/O1 status · deduced root · motion data (glissandi, vibrato) · performance data (velocity, timing).</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">2.6</span><span class="faq-q-text">Can I play with the QWERTY keyboard?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <table class="faq-table">
+          <tbody>
+            <tr><td><span class="ratio">z x c v b n m</span></td><td>C D E F G A B — lower octave naturals</td></tr>
+            <tr><td><span class="ratio">a s d f g h j</span></td><td>C D E F G A B — upper octave naturals</td></tr>
+            <tr><td><span class="ratio">Shift + above</span></td><td>Flats (♭) of each note</td></tr>
+            <tr><td><span class="ratio">1 – 7</span></td><td>Sharps (♯) of lower octave</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 3 ══ -->
+  <section class="faq-section">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <span class="section-title">The mm Sequencer</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">3.1</span><span class="faq-q-text">What does the mm Sequencer do?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>Accepts any MIDI (.mid), MusicXML (.xml / .mxl), or .mmf file and converts it to <strong>pure Pythagorean intonation</strong> in real time. A single self-contained HTML file — no installation, no server.</p>
+        <p>Core workflow — <em>Bach to the Future</em>: load any MIDI → hear it in Pythagorean tuning → save as .mmf → perform live on the keyboard.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">3.2</span><span class="faq-q-text">What is the Three-Pipeline Architecture?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <table class="faq-table">
+          <thead><tr><th>Pipeline</th><th>Name</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Performance</td><td>Raw note, velocity, timing — unchanged</td></tr>
+            <tr><td>2</td><td>Motion</td><td>Original pitch bend — glissandi, vibrato — preserved exactly</td></tr>
+            <tr><td>3</td><td>Axiomatic</td><td>Pythagorean correction: exact <span class="ratio">3ⁿ / 2ᵐ</span> ratios · OO/O1 status</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">3.3</span><span class="faq-q-text">What is Score Intelligence?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>An optional AI layer that automatically identifies the tonal context of each passage, assigns OO/O1 status per note, and determines the Pythagorean sensitization level. Connects via your own Anthropic API key — stored only in your browser, never shared. The Sequencer is fully functional without it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 4 ══ -->
+  <section class="faq-section">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <span class="section-title">Tempered Systems</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">4.1</span><span class="faq-q-text">How does equal temperament differ from the Pythagorean system?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>Equal temperament is also axiomatic — but its axiom is the <strong>n-th root of 2</strong> (e.g. the 12th root for the standard 12-tone system). This generates irrational numbers — frequencies that cannot be expressed as exact fractions of whole numbers.</p>
+        <p>The Pythagorean system uses only arithmetic fractions of 2 and 3. Every pitch is exact.</p>
+        <div class="callout">Cents, quarter-tones, and half-steps as measurement units belong to the tempered context only. They are not used to describe or derive Pythagorean ratios in Music Motion.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">4.2</span><span class="faq-q-text">Does Music Motion support equal temperament?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>Yes — as a reference and comparison tool. Every key includes an equal-tempered reference zone (cyan/turquoise). The Sequencer can play files in their original tempered form before conversion. The goal is to make the difference between both systems <strong>directly audible and mathematically visible</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 5 ══ -->
+  <section class="faq-section">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <span class="section-title">Using the Tools</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">5.1</span><span class="faq-q-text">Do the tools require installation or an internet connection?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>No installation and no server are required. Each tool is a single self-contained HTML file running entirely in Web Audio API — zero external dependencies. Note: Chrome requires a local HTTP server (<code>python -m http.server 8080</code>) due to its audio policy. Firefox and Safari open files directly.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-q"><span class="faq-q-num">5.2</span><span class="faq-q-text">Is Music Motion free? What is the project's future?</span><span class="faq-q-arrow">▶</span></button>
+      <div class="faq-a">
+        <p>The <strong>Music Motion basic keyboard</strong> is and will remain free — open to every student, musician, and researcher worldwide. The roadmap includes <em>mmk Pro</em> (commercial, full composition environment) and a <em>physical mmk keyboard</em> (commercial, native .mmf support). The project is crowdfunding-supported to preserve its mathematical independence.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>
